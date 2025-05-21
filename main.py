@@ -1,9 +1,7 @@
 import arxiv
 import json
 import os
-import requests
 from typing import List
-from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 
 
