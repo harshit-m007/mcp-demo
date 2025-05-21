@@ -7,8 +7,6 @@ from mcp.server.fastmcp import FastMCP
 
 PAPER_DIR = "papers"
 
-# GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
-# MODEL_NAME = "gemma-7b-it"  # Or "mixtral-8x7b-32768", "llama2-70b-4096"
 
 mcp = FastMCP("research", port = 8001)
 @mcp.tool()
@@ -76,89 +74,6 @@ def extract_info(paper_id: str) -> str:
                     continue
     return f"Paper {paper_id} not found."
 
-# def call_groq_api(messages: list, tools: list = None):
-#     """Call Groq's API with the given messages and tools."""
-#     headers = {
-#         "Authorization": f"Bearer {os.getenv('GROQ_API_KEY')}",
-#         "Content-Type": "application/json"
-#     }
-    
-#     payload = {
-#         "model": MODEL_NAME,
-#         "messages": messages,
-#         "temperature": 0.7
-#     }
-    
-#     if tools:
-#         payload["tools"] = tools
-    
-#     response = requests.post(GROQ_API_URL, headers=headers, json=payload)
-#     return response.json()
-
-# def process_query(query: str):
-#     """Process a user query using Groq's API with function calling."""
-#     messages = [{"role": "user", "content": query}]
-    
-#     while True:
-#         response = call_groq_api(messages, tools)
-#         message = response["choices"][0]["message"]
-#         messages.append(message)
-        
-#         if "tool_calls" not in message:
-#             return message["content"]
-        
-#         for tool_call in message["tool_calls"]:
-#             tool_name = tool_call["function"]["name"]
-#             tool_args = json.loads(tool_call["function"]["arguments"])
-#             print(f"Calling {tool_name} with {tool_args}")
-            
-#             result = execute_tool(tool_name, tool_args)
-#             messages.append({
-#                 "role": "tool",
-#                 "name": tool_name,
-#                 "content": result,
-#                 "tool_call_id": tool_call["id"]
-#             })
-
-# def execute_tool(tool_name: str, tool_args: dict):
-#     """Execute a tool and return the result."""
-#     if tool_name == "search_papers":
-#         return json.dumps(search_papers(**tool_args))
-#     elif tool_name == "extract_info":
-#         return extract_info(**tool_args)
-#     return "Unknown tool"
-
-# tools = [
-#     {
-#         "type": "function",
-#         "function": {
-#             "name": "search_papers",
-#             "description": "Search for papers on arXiv",
-#             "parameters": {
-#                 "type": "object",
-#                 "properties": {
-#                     "topic": {"type": "string"},
-#                     "max_results": {"type": "integer", "default": 5}
-#                 },
-#                 "required": ["topic"]
-#             }
-#         }
-#     },
-#     {
-#         "type": "function",
-#         "function": {
-#             "name": "extract_info",
-#             "description": "Get information about a specific paper",
-#             "parameters": {
-#                 "type": "object",
-#                 "properties": {
-#                     "paper_id": {"type": "string"}
-#                 },
-#                 "required": ["paper_id"]
-#             }
-#         }
-#     }
-# ]
 
 if __name__ == "__main__":
 
